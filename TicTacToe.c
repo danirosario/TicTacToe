@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+
+char grid[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
 
 void displayBoard();
 
@@ -10,8 +13,8 @@ int main()
     while (true)
     {
         displayBoard();
-        
-        if(isPlayer1Turn)
+
+        if (isPlayer1Turn)
         {
             printf("Player 1's turn (X): ");
         }
@@ -23,13 +26,33 @@ int main()
         char choice;
         scanf(" %c", &choice);
 
-        //validando se a escolha é um número de 1 a 9
-        if(choice < '1' || choice > '9')
+        if (choice < '1' || choice > '9')
         {
             printf("Invalid choice. Please choose a number between 1 and 9.\n");
             continue;
         }
-        // Alterna o turno 
+
+        // Convertendo char para índice da matriz
+        int choiceNum = choice - '0'; 
+        int row = (choiceNum - 1) / 3; // Cálculo da linha
+        int col = (choiceNum - 1) % 3; // Cálculo da coluna
+
+        // Verifica se a posição já está ocupada
+        if (grid[row][col] == 'X' || grid[row][col] == 'O') 
+        {
+            printf("Position already taken! Try again.\n");
+            continue;
+        }
+
+        if (isPlayer1Turn)
+        {
+            grid[row][col] = 'X'; 
+        }
+        else
+        {
+            grid[row][col] = 'O'; 
+        }
+
         isPlayer1Turn = !isPlayer1Turn;
     }
 
@@ -38,17 +61,17 @@ int main()
 
 void displayBoard()
 {
-    int grid[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-
     int rows = 3;
     int columns = 3;
 
+    printf("\n");
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < columns; j++)
         {
-            printf("| %d  ", grid[i][j]);
+            printf("| %c  ", grid[i][j]);
         }
         printf("|\n");
     }
+    printf("\n");
 }
