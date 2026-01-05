@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+void displayBoard();
+
 int main()
 {
     bool isPlayer1Turn = true;
@@ -8,6 +10,7 @@ int main()
     while (true)
     {
         displayBoard();
+        
         if(isPlayer1Turn)
         {
             printf("Player 1's turn (X): ");
@@ -16,17 +19,29 @@ int main()
         {
             printf("Player 2's turn (O): ");
         }
+
+        char choice;
+        scanf(" %c", &choice);
+
+        //validando se a escolha é um número de 1 a 9
+        if(choice < '1' || choice > '9')
+        {
+            printf("Invalid choice. Please choose a number between 1 and 9.\n");
+            continue;
+        }
+        // Alterna o turno 
+        isPlayer1Turn = !isPlayer1Turn;
     }
 
     return 0;
 }
 
-int displayBoard()
+void displayBoard()
 {
     int grid[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
 
-    int rows = sizeof(grid) / sizeof(grid[0]);
-    int columns = sizeof(grid[0]) / sizeof(grid[0][0]);
+    int rows = 3;
+    int columns = 3;
 
     for (int i = 0; i < rows; i++)
     {
@@ -34,9 +49,6 @@ int displayBoard()
         {
             printf("| %d  ", grid[i][j]);
         }
-        printf("|");
-        printf("\n");
+        printf("|\n");
     }
-    return 0;
 }
-
